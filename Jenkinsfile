@@ -2,7 +2,7 @@ pipeline {
     agent { label 'Jenkins-Agent' }
     
     tools {
-        jdk 'jdk17'
+        jdk 'java17'
         maven 'maven3'
     }
 
@@ -28,6 +28,14 @@ pipeline {
                   sh 'mvn test'
             }
         }
+     stage('SonarQube Analysis') {
+            steps {
+                  withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') {
+                  sh 'mvn sonar:sonar'      
+                  }
+            }
+        }
      
     }
 }
+
