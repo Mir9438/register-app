@@ -9,7 +9,7 @@ pipeline {
         APP_NAME = 'register-app-pipeline'
         RELEASE = '1.0.0'
         DOCKER_USER = 'mirali94'
-        DOCKER_PASS = credentials('dockerhub')  // Using Jenkins credentials for Docker Hub
+        DOCKER_PASS = 'dockerhub'  // Using Jenkins credentials for Docker Hub
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	   
@@ -58,7 +58,7 @@ pipeline {
                     def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 
                     // Push Docker image with tags
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_PASS) {
+                    docker.withRegistry('', DOCKER_PASS) {
                         dockerImage.push("${IMAGE_TAG}")
                         dockerImage.push('latest')
                     }
