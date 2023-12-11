@@ -6,12 +6,12 @@ pipeline {
         maven 'maven3'
     }
     environment {
-        APP_NAME = "register-app-pipeline"
-            RELEASE = "1.0.0"
-            DOCKER_USER = "mirali94"
-            DOCKER_PASS = 'dockerhub'
-            IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
-            IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+        APP_NAME = 'register-app-pipeline'
+        RELEASE = '1.0.0'
+        DOCKER_USER = 'mirali94'
+        DOCKER_PASS = credentials('dockerhub')  // Using Jenkins credentials for Docker Hub
+        IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	   
     }
 
@@ -55,11 +55,11 @@ pipeline {
                 steps {
                      script {
                         docker.withRegistry('',DOCKER_PASS){
-                            docker_image = docker.build '$(IMAGE_NAME)'
+                            docker_Image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                         }
                        docker.withRegistry('',DOCKER_PASS){
-                           docker_image.push('${IMAGE_TAG}')
-                           docker_image.push('latest')
+                           docker_Image.push('${IMAGE_TAG}')
+                           docker_Image.push('latest')
                        }
                     }      
                   }
