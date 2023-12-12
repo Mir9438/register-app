@@ -98,7 +98,8 @@ pipeline {
             emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
                      subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
                      mimeType: 'text/html',to: "mir.ali19912@gmail.com"
-      }      
-   }
+            }     
+        }    
+    }
 }
 	
